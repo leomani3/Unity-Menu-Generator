@@ -5,6 +5,7 @@ using UnityEditor;
 public class ButtonEditor : Editor
 {
     private string sceneName;
+    private Object obj;
 
     public override void OnInspectorGUI()
     {
@@ -12,7 +13,7 @@ public class ButtonEditor : Editor
 
         ButtonManager buttonManager = (ButtonManager)target;
 
-        buttonManager.SetActionIndex(GUILayout.Toolbar(buttonManager.GetActionIndex(), new string[] { "Load Scene", "Quit" }));
+        buttonManager.SetActionIndex(GUILayout.Toolbar(buttonManager.GetActionIndex(), new string[] { "Load Scene", "Quit"}));
 
         if (buttonManager.GetActionIndex() == 0)
         {

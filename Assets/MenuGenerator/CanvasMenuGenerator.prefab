@@ -127,7 +127,7 @@ MonoBehaviour:
   gameLogoSize: 200
   buttonsOffset: 100
   spaceBewteenButtons: 100
-  buttonFontSize: 0
+  buttonFontSize: 36
 --- !u!114 &7916655377812927585
 MonoBehaviour:
   m_ObjectHideFlags: 0

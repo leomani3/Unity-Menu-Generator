@@ -115,7 +115,7 @@ public class MenuManager : MonoBehaviour
             else if (btn.GetAction() == ButtonManager.ACTIONS.Quit)
             {
                 Application.Quit();
-                Debug.Log("quite");
+                Debug.Log("quit");
             }
          }
 

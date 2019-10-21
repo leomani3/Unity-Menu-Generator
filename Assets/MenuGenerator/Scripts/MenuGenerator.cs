@@ -12,14 +12,21 @@ public class MenuGenerator : MonoBehaviour
 
     [Header("Réglages :")]
     public string[] buttonNames;
+    [Header("")]
     public float gameLogoMarginTop;
+    public float gameLogoMarginRight;
     public float gameLogoSize;
-    public float buttonsOffset;
+    [Header("")]
+    public float buttonMarginBottom;
+    public float buttonMarginRight;
     public float spaceBewteenButtons;
     public float buttonFontSize;
 
+    private List<GameObject> buttons;
+
     public void CreateMenu()
     {
+        buttons = new List<GameObject>();
         //Clear du menu
         int nbChildren = transform.childCount;
         for (int i = 0; i < nbChildren; i++)
@@ -32,17 +39,20 @@ public class MenuGenerator : MonoBehaviour
 
         //Game Logo
         GameObject gameLogo = Instantiate(gameLogoPrefab, new Vector3(0, 0, 0), Quaternion.identity, transform);
-        gameLogo.transform.position = new Vector3(GetComponent<RectTransform>().rect.width / 2, GetComponent<RectTransform>().rect.height - gameLogo.GetComponent<RectTransform>().rect.height/2 - gameLogoMarginTop, 0);
+        gameLogo.transform.position = new Vector3(GetComponent<RectTransform>().rect.width / 2 - gameLogoMarginRight, GetComponent<RectTransform>().rect.height - gameLogo.GetComponent<RectTransform>().rect.height/2 - gameLogoMarginTop, 0);
         gameLogo.GetComponent<RectTransform>().sizeDelta = new Vector2(gameLogoSize, gameLogoSize);
 
         //Boutons
         for (int i = 0; i < buttonNames.Length; i++)
         {
-            GameObject button = Instantiate(buttonPrefab, new Vector3(GetComponent<RectTransform>().rect.width / 2, GetComponent<RectTransform>().rect.height / 2, 0), Quaternion.identity, transform);
+            GameObject button = Instantiate(buttonPrefab, new Vector3(GetComponent<RectTransform>().rect.width / 2 - buttonMarginRight, GetComponent<RectTransform>().rect.height / 2, 0), Quaternion.identity, transform);
             SetButtonText(button, buttonNames[i]);
-            button.transform.position += new Vector3(0, buttonsOffset - (i * spaceBewteenButtons), 0);
+            button.transform.position += new Vector3(0, buttonMarginBottom - (i * spaceBewteenButtons), 0);
             button.GetComponent<ButtonManager>().SetButtonIndex(i);
+            buttons.Add(button);
         }
+
+        NormalizeButtonSize(); 
     }
 
     //change le text du bouton
@@ -68,6 +78,41 @@ public class MenuGenerator : MonoBehaviour
             }
         }
 
+    }
+
+    //Change la size de tous les boutons pour être de la même largeur que le plus grand bouton
+    public void NormalizeButtonSize()
+    {
+        //Normalisation de la largeur des boutons selon le plus large.
+        float maxWidth = 0;
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            Transform child;
+            for (int j = 0; j < buttons[i].transform.childCount; j++)
+            {
+                if (buttons[i].transform.GetChild(j).gameObject.name.Contains("BG"))
+                {
+                    child = buttons[i].transform.GetChild(j);
+                    if (child.GetComponent<RectTransform>().sizeDelta.x > maxWidth)
+                    {
+                        maxWidth = child.GetComponent<RectTransform>().sizeDelta.x;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            Transform child;
+            for (int j = 0; j < buttons[i].transform.childCount; j++)
+            {
+                if (buttons[i].transform.GetChild(j).gameObject.name.Contains("BG"))
+                {
+                    child = buttons[i].transform.GetChild(j);
+                    child.GetComponent<RectTransform>().sizeDelta = new Vector2(maxWidth, child.GetComponent<RectTransform>().sizeDelta.y);
+                }
+            }
+        }
     }
 
 }
