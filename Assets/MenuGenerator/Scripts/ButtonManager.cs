@@ -8,7 +8,7 @@ public class ButtonManager : MonoBehaviour
 
     [HideInInspector]
     public int buttonIndex;
-    private string sceneName;
+    public string sceneName;
     private ACTIONS action;
     [HideInInspector]
     public int actionIndex;
