@@ -4,7 +4,8 @@ using UnityEditor;
 [CustomEditor(typeof(ButtonManager))]
 public class ButtonEditor : Editor
 {
-    public string sceneName;
+    private string sceneName;
+    private string newSceneName;
     private Object obj;
 
     public override void OnInspectorGUI()
@@ -24,9 +25,14 @@ public class ButtonEditor : Editor
             if (!Application.isPlaying)
             {
                 GUILayout.Label("Scene Name : ", GUILayout.Width(100));
-                sceneName = GUILayout.TextField(sceneName);
-                buttonManager.SetSceneName(sceneName);
+                newSceneName = GUILayout.TextField(sceneName);
+                if (sceneName != newSceneName)
+                {
+                    sceneName = newSceneName;
+                    buttonManager.SetSceneName(sceneName);
+                }
             }
+            Debug.Log(sceneName);
 
             GUILayout.EndHorizontal();
         }

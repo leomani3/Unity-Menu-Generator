@@ -8,7 +8,7 @@ public class ButtonManager : MonoBehaviour
 
     [HideInInspector]
     public int buttonIndex;
-    public string sceneName;
+    public string currentSceneName;
     private ACTIONS action;
     [HideInInspector]
     public int actionIndex;
@@ -30,12 +30,12 @@ public class ButtonManager : MonoBehaviour
 
     public string GetSceneName()
     {
-        return sceneName;
+        return currentSceneName;
     }
 
     public void SetSceneName(string str)
     {
-        sceneName = str;
+        currentSceneName = str;
     }
 
     public ACTIONS GetAction()
